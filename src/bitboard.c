@@ -1,13 +1,19 @@
 #include <stdio.h>
 
+// bitboard type
 typedef unsigned long long u64;
 
-u64 outputbb(u64 n) {
-  u64 m = n ? outputbb(n / 2) : 0;
-  printf("%d", (int)(n % 2));
+// macros
+#define get_bit(bb, square) (bb & (1ULL << square))
 
-  return m;
-  // modify to print the bitboard as a chessboard w/ bits instead!
+void outputbb(u64 bb) {
+  for (int rank = 0; rank < 8; rank++) {
+    for (int file = 0; file < 8; file++) {
+      int square = rank * 8 + file;
+      printf(" %d ", get_bit(bb, square) ? 1 : 0);
+    }
+    printf("\n");
+  }
 }
 
 u64 whitebb() {
@@ -36,7 +42,10 @@ u64 blackbb() {
 
 int main() {
 
-  // outputbb(whitebb());
+  outputbb(whitebb());
+  printf("\n");
   outputbb(blackbb());
+  printf("\n");
+  outputbb(blackbb() | whitebb());
   return 0;
 }
